@@ -9,7 +9,9 @@ int main(int argc, char *argv[])
 
     if (argc == 0) {
         fd = 0;
-        toupper(write(fd, buf, 2048));
+        for (int i = 0; i < buf; i++) {
+            toupper(write(fd, buf, 1));
+        }
     }
 
     else {
@@ -18,7 +20,9 @@ int main(int argc, char *argv[])
             int sz = read(fd, buf, 2048);
             while (sz > 0) {
                 sz = read(fd, buf, 2048);
-                toupper(write(1, buf, sz));
+                for (int i = 0; i < buf; i++) {
+                    toupper(write(fd, buf, 1));
+                }
             }
             close(fd);
         }
