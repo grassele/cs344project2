@@ -1,18 +1,25 @@
 #include <unistd.h>
 #include <fcntl.h> 
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) 
+{
+    char buf[2048];
+    int fd;
 
-    for (int i = 1; i <= argc; i++) {
-        int fd = open(argv[i], O_RDWR);
-
-        int sz = read(fd, &argv[i], 2048);
-
-        for (int j = 0; sz > 0; j++) {
-            sz = read(fd, &argv[i]+2048*j, 2048);
-            write(1, &argv[i]+2048*j, sz);
-        }
-
-        close(fd);
+    if (argc == 0) {
+        fd = 0;
+        write(fd, buf, 2048);
     }
-}
+
+    else {
+        for (int i = 1; i < argc; i++) {
+            fd = open(argv[i], O_RDWR);
+            int sz = read(fd, buf, 2048);
+            while (sz > 0) {
+                sz = read(fd, buf, 2048);
+                write(1, buf, sz);
+            }
+            close(fd);
+        }
+    }
+}    
